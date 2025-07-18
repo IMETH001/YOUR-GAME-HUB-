@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YOUR GAMING HUB</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0d0d0d;
+      color: white;
+    }
+    header {
+      background-color: #1a1a1a;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .search-bar input {
+      padding: 10px;
+      width: 300px;
+      max-width: 80%;
+      border-radius: 5px;
+      border: none;
+      font-size: 16px;
+    }
+    .hero {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .hero img {
+      width: 90%;
+      max-width: 1000px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.2);
+    }
+    .game-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+      gap: 20px;
+    }
+    .game-card {
+      width: 200px;
+      background-color: #1f1f1f;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.4);
+      transition: transform 0.2s ease;
+    }
+    .game-card:hover {
+      transform: scale(1.05);
+    }
+    .game-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .game-card a {
+      color: white;
+      text-decoration: none;
+      display: block;
+      padding: 10px;
+      text-align: center;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🔥 YOUR GAMING HUB 🔥</h1>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search games..." oninput="filterGames()" />
+    </div>
+  </header>
+
+  <section class="hero">
+    <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/730/header.jpg" alt="CS:GO Banner" />
+  </section>
+
+  <section class="game-list" id="gameList">
+    <!-- Game cards will be inserted here by JavaScript -->
+  </section>
+
+  <footer>
+    CREATED BY IMETH BINUGA
+  </footer>
+
+  <script>
+    const games = [
+      { name: 'Counter-Strike 2', url: 'https://store.steampowered.com/app/730/CounterStrike_2/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/730/capsule_616x353.jpg' },
+      { name: 'Apex Legends', url: 'https://store.steampowered.com/app/1172470/Apex_Legends/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1172470/capsule_616x353.jpg' },
+      { name: 'Dota 2', url: 'https://store.steampowered.com/app/570/Dota_2/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/570/capsule_616x353.jpg' },
+      { name: 'Rust', url: 'https://store.steampowered.com/app/252490/Rust/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/252490/capsule_616x353.jpg' },
+      { name: 'GTA V', url: 'https://store.steampowered.com/app/271590/Grand_Theft_Auto_V/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/271590/capsule_616x353.jpg' },
+      // 30 free-to-play examples:
+      { name: 'Warframe', url: 'https://store.steampowered.com/app/230410/Warframe/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/230410/capsule_616x353.jpg' },
+      { name: 'Path of Exile', url: 'https://store.steampowered.com/app/238960/Path_of_Exile/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/238960/capsule_616x353.jpg' },
+      { name: 'Team Fortress 2', url: 'https://store.steampowered.com/app/440/Team_Fortress_2/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/440/capsule_616x353.jpg' },
+      { name: 'Destiny 2', url: 'https://store.steampowered.com/app/1085660/Destiny_2/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1085660/capsule_616x353.jpg' },
+      { name: 'Paladins', url: 'https://store.steampowered.com/app/444090/Paladins/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/444090/capsule_616x353.jpg' },
+      { name: 'War Thunder', url: 'https://store.steampowered.com/app/236390/War_Thunder/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/236390/capsule_616x353.jpg' },
+      { name: 'Brawlhalla', url: 'https://store.steampowered.com/app/291550/Brawlhalla/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/291550/capsule_616x353.jpg' },
+      { name: 'Smite', url: 'https://store.steampowered.com/app/386360/SMITE/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/386360/capsule_616x353.jpg' },
+      { name: 'Crusader Kings II', url: 'https://store.steampowered.com/app/203770/Crusader_Kings_II/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/203770/capsule_616x353.jpg' },
+      { name: 'World of Tanks Blitz', url: 'https://store.steampowered.com/app/447820/World_of_Tanks_Blitz/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/447820/capsule_616x353.jpg' },
+      { name: 'Warface', url: 'https://store.steampowered.com/app/291480/Warface/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/291480/capsule_616x353.jpg' },
+      { name: 'Enlisted', url: 'https://store.steampowered.com/app/966660/Enlisted/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/966660/capsule_616x353.jpg' },
+      { name: 'Dauntless', url: 'https://store.steampowered.com/app/512520/Dauntless/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/512520/capsule_616x353.jpg' },
+      { name: 'Realm Royale', url: 'https://store.steampowered.com/app/813820/Realm_Royale/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/813820/capsule_616x353.jpg' },
+      { name: 'Hyper Scape', url: 'https://store.steampowered.com/app/1034420/Hyper_Scape/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1034420/capsule_616x353.jpg' },
+      { name: 'Arena of Fate', url: 'https://store.steampowered.com/app/42700/Arena_of_Fate/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/42700/capsule_616x353.jpg' },
+      { name: 'Realm of the Mad God', url: 'https://store.steampowered.com/app/200210/Realm_of_the_Mad_God/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/200210/capsule_616x353.jpg' },
+      { name: 'Unturned', url: 'https://store.steampowered.com/app/304930/Unturned/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/304930/capsule_616x353.jpg' },
+      { name: 'Fall Guys', url: 'https://store.steampstatic.com/steam/apps/1252990/capsule_616x353.jpg', fallbackUrl: 'https://store.steampowered.com/app/1252990/Fall_Guys/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1252990/capsule_616x353.jpg' },
+      { name: 'Phantasy Star Online 2', url: 'https://store.steampowered.com/app/1173040/Phantasy_Star_Online_2_New_Genesis/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1173040/capsule_616x353.jpg' },
+      { name: 'Crossout', url: 'https://store.steampowered.com/app/473270/Crossout/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/473270/capsule_616x353.jpg' },
+      { name: 'Lost Ark', url: 'https://store.steampowered.com/app/1599340/Lost_Ark/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1599340/capsule_616x353.jpg' },
+      { name: 'Spellbreak', url: 'https://store.steampowered.com/app/771691/Spellbreak/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/771691/capsule_616x353.jpg' },
+      { name: 'Rocket League', url: 'https://store.steampowered.com/app/252950/Rocket_League/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/252950/capsule_616x353.jpg' },
+      { name: 'Genshin Impact', url: 'https://store.steampowered.com/app/1277280/Genshin_Impact/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1277280/capsule_616x353.jpg' },
+      { name: 'Fortnite', url: 'https://www.epicgames.com/fortnite/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/capsule_616x353.jpg' },
+      { name: 'VALORANT', url: 'https://playvalorant.com/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/8230/capsule_616x353.jpg' },
+      { name: 'World of Warships', url: 'https://store.steampowered.com/app/552990/World_of_Warships/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/552990/capsule_616x353.jpg' },
+      { name: 'World of Warplanes', url: 'https://store.steampowered.com/app/501340/World_of_Warplanes/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/501340/capsule_616x353.jpg' },
+      { name: 'Marvel Future Revolution', url: 'https://playcontest.world/afr/', img: 'https://cdn.cloudflare.steamstatic.com/steam/apps/1754410/capsule_616x353.jpg' }
+    ];
+
+    function createGameCard(game) {
+      const div = document.createElement('div');
+      div.className = 'game-card';
+      const a = document.createElement('a');
+      a.href = game.url;
+      a.target = '_blank';
+      const img = document.createElement('img');
+      img.src = game.img;
+      img.alt = game.name;
+      a.appendChild(img);
+      const span = document.createElement('span');
+      span.textContent = game.name;
+      a.appendChild(span);
+      div.appendChild(a);
+      return div;
+    }
+
+    function displayGames(list) {
+      const container = document.getElementById('gameList');
+      container.innerHTML = '';
+      list.forEach(game => container.appendChild(createGameCard(game)));
+    }
+
+    function filterGames() {
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const filtered = games.filter(g => g.name.toLowerCase().includes(query));
+      displayGames(filtered);
+    }
+
+    // initial load
+    displayGames(games);
+  </script>
+
+</body>
+</html>
